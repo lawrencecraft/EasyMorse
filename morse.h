@@ -15,8 +15,8 @@ typedef struct {
 
 void dit();
 void dash();
-void flash_byte(byte pattern, byte toflash);
+// void flash_byte(byte pattern, byte toflash);
 void flash_pin(int length);
 void flash_packed_pattern(flashcode_t code);
-void flash_char(char c);
+void flash_char(char *c);
 #endif

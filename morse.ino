@@ -12,7 +12,7 @@
 #define DASH_LENGTH 600
 
 // Store codes in progmem  
-flashcode_t codes[] PROGMEM = { // Packing code: 
+const flashcode_t codes[] = { // Packing code: 
   {5, B0000},  // 0
   {5, B10000}, // 1
   {5, B11000}, // 2
@@ -50,14 +50,6 @@ flashcode_t codes[] PROGMEM = { // Packing code:
   {4, B0100}, // Y
   {4, B0011}, // Z
 };
-/*
-void dit();
-void dash();
-void flash_byte(byte pattern, byte toflash);
-void flash_pin(int length);
-void flash_packed_pattern(flashcode_t code);
-void flash_char(char c);
-*/
 
 void setup() {
   pinMode(OUTPUT_PIN, OUTPUT);
@@ -70,13 +62,13 @@ void setup() {
 }
 
 void loop() {
-  flashcode_t z = {5, B0000};
-  flash_packed_pattern(z);
-  //delay(300);
-  //flash_char('O');
-  //delay(300);
-  //flash_char('S');
-  //delay(300);
+  char s = 's';
+  char o = 'o';
+  flash_char(s);
+  delay(300);
+  flash_char(o);
+  delay(300);
+  flash_char(s);
   delay(1000);
 }
 
@@ -89,25 +81,34 @@ void dash() {
   flash_pin(DASH_LENGTH);
 }
 
+void flash_morse_string(char *string){
+  
+}
+
+// Flash a pattern with a specific number of times to flash
 void flash_byte(byte pattern, byte toflash) {
+  byte mask = 1 << (toflash - 1);
   while(toflash-- != 0) {
-    (pattern & 1) ? dit() : dash();
+    (pattern & mask) ? dit() : dash();
+    pattern = pattern << 1;
     delay(200);
   }
   delay(700);
 }
 
-void flash_packed_pattern(flashcode_t code) {
-  flash_byte(code.code, code.number);
+// Helper method to flash a specific packed pattern.
+// No need to duplicate, so take a pointer
+void flash_packed_pattern(const flashcode_t *code) {
+  flash_byte(code->code, code->number);
 }
 
 void flash_char(char c) {
   if(c >= '0' && c <= '9')
-    flash_packed_pattern(codes[c - '0']);
+    flash_packed_pattern(&codes[c - '0']);
   else if (c >= 'A' && c <= 'Z')
-    flash_packed_pattern(codes[c - 'A' + 10]);
+    flash_packed_pattern(&codes[c - 'A' + 10]);
   else if (c >= 'a' && c <= 'z')
-    flash_packed_pattern(codes[c - 'a' + 10]);
+    flash_packed_pattern(&codes[c - 'a' + 10]);
 }
 
 void flash_pin(int length) {
