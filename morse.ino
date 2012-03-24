@@ -5,18 +5,14 @@
 // My morse code thingermadude
 //
 // Writes morse code
+#include "morse.h"
 
 #define OUTPUT_PIN 13
 #define DIT_LENGTH 100
 #define DASH_LENGTH 600
 
-struct flashcode {
-  prog_uchar number : 3;
-  prog_uchar code : 5;
-};
-
 // Store codes in progmem  
-flashcode codes[] PROGMEM = { // Packing code: 
+flashcode_t codes[] PROGMEM = { // Packing code: 
   {5, B0000},  // 0
   {5, B10000}, // 1
   {5, B11000}, // 2
@@ -59,6 +55,7 @@ void dit();
 void dash();
 void flash_byte(byte pattern, byte toflash);
 void flash_pin(int length);
+void flash_packed_pattern(flashcode_t code);
 
 void setup() {
   pinMode(OUTPUT_PIN, OUTPUT);
@@ -71,14 +68,14 @@ void setup() {
 }
 
 void loop() {
-  //flash_byte(B111, 3);
-  //flash_byte(B000, 3);
-  //flash_byte(B111, 3);
-  int tst = sizeof(flashcode);
-  while(tst-- > 0) {
-    dit();
-    delay(100);
-  }
+  flashcode_t s = {3, B111};
+  flashcode_t o = {3, B000};
+  flash_packed_pattern(s);
+  delay(300);
+  flash_packed_pattern(o);
+  delay(300);
+  flash_packed_pattern(s);
+  delay(300);
   delay(1000);
 }
 
@@ -97,6 +94,10 @@ void flash_byte(byte pattern, byte toflash) {
     delay(200);
   }
   delay(700);
+}
+
+void flash_packed_pattern(flashcode_t code) {
+  flash_byte(code.code, code.number);
 }
 
 void flash_pin(int length) {
