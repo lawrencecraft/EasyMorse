@@ -50,12 +50,14 @@ flashcode_t codes[] PROGMEM = { // Packing code:
   {4, B0100}, // Y
   {4, B0011}, // Z
 };
-
+/*
 void dit();
 void dash();
 void flash_byte(byte pattern, byte toflash);
 void flash_pin(int length);
 void flash_packed_pattern(flashcode_t code);
+void flash_char(char c);
+*/
 
 void setup() {
   pinMode(OUTPUT_PIN, OUTPUT);
@@ -68,14 +70,13 @@ void setup() {
 }
 
 void loop() {
-  flashcode_t s = {3, B111};
-  flashcode_t o = {3, B000};
-  flash_packed_pattern(s);
-  delay(300);
-  flash_packed_pattern(o);
-  delay(300);
-  flash_packed_pattern(s);
-  delay(300);
+  flashcode_t z = {5, B0000};
+  flash_packed_pattern(z);
+  //delay(300);
+  //flash_char('O');
+  //delay(300);
+  //flash_char('S');
+  //delay(300);
   delay(1000);
 }
 
@@ -98,6 +99,15 @@ void flash_byte(byte pattern, byte toflash) {
 
 void flash_packed_pattern(flashcode_t code) {
   flash_byte(code.code, code.number);
+}
+
+void flash_char(char c) {
+  if(c >= '0' && c <= '9')
+    flash_packed_pattern(codes[c - '0']);
+  else if (c >= 'A' && c <= 'Z')
+    flash_packed_pattern(codes[c - 'A' + 10]);
+  else if (c >= 'a' && c <= 'z')
+    flash_packed_pattern(codes[c - 'a' + 10]);
 }
 
 void flash_pin(int length) {
