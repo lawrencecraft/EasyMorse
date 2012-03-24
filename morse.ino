@@ -51,28 +51,6 @@ const flashcode_t codes[] = { // Packing code:
   {4, B0011}, // Z
 };
 
-void setup() {
-  pinMode(OUTPUT_PIN, OUTPUT);
-  dit();
-  delay(100);
-  dit();
-  delay(100);
-  dit();
-  delay(1000);
-}
-
-void loop() {
-  char s = 's';
-  char o = 'o';
-  flash_char(s);
-  delay(300);
-  flash_char(o);
-  delay(300);
-  flash_char(s);
-  delay(1000);
-}
-
-
 void dit() {
   flash_pin(DIT_LENGTH);
 }
