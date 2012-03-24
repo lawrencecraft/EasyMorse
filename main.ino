@@ -13,12 +13,6 @@ void setup() {
 }
 
 void loop() {
-  char s = 's';
-  char o = 'o';
-  flash_char(s);
-  delay(300);
-  flash_char(o);
-  delay(300);
-  flash_char(s);
+  flash_morse_string("Hello Laura Day");
   delay(1000);
 }

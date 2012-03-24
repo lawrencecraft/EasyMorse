@@ -13,10 +13,10 @@ typedef struct {
   unsigned char code : 5;
 } flashcode_t;
 
-void dit();
-void dash();
-// void flash_byte(byte pattern, byte toflash);
 void flash_pin(int length);
 void flash_packed_pattern(flashcode_t code);
-void flash_char(char *c);
+void flash_char(char c);
+void dit();
+void dash();
+void flash_morse_string(char *string);
 #endif

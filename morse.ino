@@ -59,8 +59,13 @@ void dash() {
   flash_pin(DASH_LENGTH);
 }
 
+// Flash a specific sequence of characters
 void flash_morse_string(char *string){
-  
+  while(*(string)) {
+    flash_char(*string);
+    string++;
+    delay(500);
+  }
 }
 
 // Flash a pattern with a specific number of times to flash
