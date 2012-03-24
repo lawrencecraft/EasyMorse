@@ -8,7 +8,7 @@
 
 #define OUTPUT_PIN 13
 #define DIT_LENGTH 100
-#define DASH_LENGTH 500
+#define DASH_LENGTH 600
 
 struct flashcode {
   prog_uchar number : 3;
