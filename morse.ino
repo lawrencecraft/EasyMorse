@@ -10,8 +10,9 @@
 #define OUTPUT_PIN 13
 #define DIT_LENGTH 100
 #define DASH_LENGTH 600
-
-// Store codes in progmem  
+#define LETTER_DELAY 500
+#define FLASH_DELAY 200
+// TODO: Store codes in progmem  
 const flashcode_t codes[] = { // Packing code: 
   {5, B0000},  // 0
   {5, B10000}, // 1
@@ -61,10 +62,10 @@ void dash() {
 
 // Flash a specific sequence of characters
 void flash_morse_string(char *string){
-  while(*(string)) {
+  while(*string) {
     flash_char(*string);
     string++;
-    delay(500);
+    delay(LETTER_DELAY);
   }
 }
 
@@ -74,9 +75,8 @@ void flash_byte(byte pattern, byte toflash) {
   while(toflash-- != 0) {
     (pattern & mask) ? dit() : dash();
     pattern = pattern << 1;
-    delay(200);
+    delay(FLASH_DELAY);
   }
-  delay(700);
 }
 
 // Helper method to flash a specific packed pattern.
