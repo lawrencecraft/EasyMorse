@@ -14,7 +14,8 @@ struct flashcode {
   prog_uchar number : 3;
   prog_uchar code : 5;
 };
-  
+
+// Store codes in progmem  
 flashcode codes[] PROGMEM = { // Packing code: 
   {5, 0}, // 0 -----
   {5, B1000}, // 1
