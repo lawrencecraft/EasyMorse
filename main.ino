@@ -4,12 +4,8 @@
 
 void setup() {
   pinMode(OUTPUT_PIN, OUTPUT);
-  dit();
-  delay(100);
-  dit();
-  delay(100);
-  dit();
-  delay(1000);
+  flash_pin(1000);
+  delay(500);
 }
 
 void loop() {
