@@ -81,17 +81,17 @@ void flash_byte(byte pattern, byte toflash) {
 
 // Helper method to flash a specific packed pattern.
 // No need to duplicate, so take a pointer
-void flash_packed_pattern(const flashcode_t *code) {
-  flash_byte(code->code, code->number);
+void flash_packed_pattern(flashcode_t code) {
+  flash_byte(code.code, code.number);
 }
 
 void flash_char(char c) {
   if(c >= '0' && c <= '9')
-    flash_packed_pattern(&codes[c - '0']);
+    flash_packed_pattern(codes[c - '0']);
   else if (c >= 'A' && c <= 'Z')
-    flash_packed_pattern(&codes[c - 'A' + 10]);
+    flash_packed_pattern(codes[c - 'A' + 10]);
   else if (c >= 'a' && c <= 'z')
-    flash_packed_pattern(&codes[c - 'a' + 10]);
+    flash_packed_pattern(codes[c - 'a' + 10]);
 }
 
 void flash_pin(int length) {
